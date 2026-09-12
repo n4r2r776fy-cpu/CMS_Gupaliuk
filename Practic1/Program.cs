@@ -3,10 +3,6 @@ using System.Text;
 
 class Program
 {
-    static void Main()
-{
-    Console.OutputEncoding = System.Text.Encoding.UTF8;
-}
     // --- Завдання 2: Функції-конвертери ---
     static string IntToBase(int n, int baseNum)
     {
@@ -48,12 +44,10 @@ class Program
         byte b8 = (byte)b;
         byte res8 = (byte)(a8 + b8);
 
-        // Визначення знаків (7-й біт)
         int signA = (a8 >> 7) & 1;
         int signB = (b8 >> 7) & 1;
         int signRes = (res8 >> 7) & 1;
 
-        // Переповнення виникає, коли знаки доданків однакові, а результат має протилежний знак
         bool overflow = (signA == signB) && (signA != signRes);
         sbyte signedRes = (sbyte)res8;
 
@@ -63,26 +57,25 @@ class Program
 
     static void Main()
     {
-        // Вмикаємо підтримку кирилиці (UTF-8) у консолі
+        // Налаштування UTF-8 для відображення кирилиці в консолі
         Console.OutputEncoding = Encoding.UTF8;
         Console.InputEncoding = Encoding.UTF8;
 
-        // Вхідні дані Варіанта №1
-        int N = 29;
-        double F = 0.1;
-        sbyte A = 45, B = 30;
-        float C = -12.5f;
+        // Вхідні дані Варіанта №2
+        int N = 58;
+        double F = 0.3;
+        sbyte A = 60, B = 20;
+        float C = 33.25f;
 
         Console.WriteLine("=== Крок 2: Переведення N та F ===");
         Console.WriteLine($"N = {N} -> BIN: {IntToBase(N, 2)}, OCT: {IntToBase(N, 8)}, HEX: {IntToBase(N, 16)}");
         Console.WriteLine($"F = {F} -> BIN (6 знаків): {FracToBin(F, 6)}");
 
-        Console.WriteLine("\n=== Крок 3: 8-бітне додавання A та B ===");
+        Console.WriteLine("\\n=== Крок 3: 8-бітне додавання A та B ===");
         var (binSum, decSum, ovf) = AddTwosComplement8Bit(A, B);
         Console.WriteLine($"A = {A}, B = {B} -> Сума бінарно: {binSum}, Десятково: {decSum}, Переповнення: {ovf}");
 
-        Console.WriteLine("\n=== Крок 4: Розбір IEEE 754 для C ===");
-        // Отримання бітового представлення float у C#
+        Console.WriteLine("\\n=== Крок 4: Розбір IEEE 754 для C ===");
         uint bits = BitConverter.SingleToUInt32Bits(C);
         string bitsStr = Convert.ToString(bits, 2).PadLeft(32, '0');
         
@@ -96,7 +89,7 @@ class Program
         Console.WriteLine($"Знак: {sign}, Порядок: {exp}, Мантиса: {mantissa}");
         Console.WriteLine($"Відновлене значення: {restored}");
 
-        Console.WriteLine("\n=== Крок 5: Похибка представлення дробів ===");
+        Console.WriteLine("\\n=== Крок 5: Похибка представлення дробів ===");
         double v1 = 0.1, v2 = 0.2;
         double sumVal = v1 + v2;
         Console.WriteLine($"0.1 + 0.2 = {sumVal}");
